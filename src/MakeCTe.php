@@ -5155,6 +5155,7 @@ class MakeCTe
             'gCBS_pAliqEfet', //opcional Alíquota Efetiva da CBS que será aplicada a Base de Cálculo 3v2-4
             'gCBS_vCBS', //opcional Valor da CBS 13v2
             // total
+            'vIBS',
             'vTotDFe'
         ];
         $std = $this->equilizeParameters($std, $possible);
@@ -5321,7 +5322,12 @@ class MakeCTe
                 true,
                 "$identificador Valor do IBS de competência do Município (vIBSMun)"
             );
+
             $gIBSCBS->appendChild($gIBSMun);
+
+            $this->vIBS = $this->dom->createElement("vIBS", $this->conditionalNumberFormatting($std->vIBS));
+            $gIBSCBS->appendChild($this->vIBS);
+
             //gripo de Informações da CBS
             $identificador = "UB12 <IBSCBS/gIBSCBS/gCBS> -";
             $gCBS = $this->dom->createElement("gCBS");
