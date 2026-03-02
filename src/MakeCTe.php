@@ -467,6 +467,14 @@ class MakeCTe
      * @var DOMElement
      */
     protected $vTotDFe;
+    /**
+     * @var DOMElement
+     */
+    protected $gIBSCredPres;
+    /**
+     * @var DOMElement
+     */
+    protected $gCBSCredPres;
 
     public function __construct(string $schema = 'PL_CTe_400')
     {
@@ -4875,7 +4883,7 @@ class MakeCTe
         $this->dom->addChild(
             $veicNovos,
             'vUnit',
-            $this->conditionalNumberFormatting($std->vUnit),
+            $std->vUnit,
             true,
             $identificador . 'Valor Unitário do Veículo '
         );
@@ -5609,6 +5617,108 @@ class MakeCTe
         );
         $this->gTribCompraGov = $gTrib;
         return $gTrib;
+    }
+
+    /**
+     * Grupo de Informações do Crédito Presumido referente ao IBS UB73 pai UB15
+     * $this->aIBSCredPres[$item]/gIBSCredPres
+     * IBSCBS/gIBSCBS/gIBSCredPres
+     * @param stdClass $std
+     * @return DOMElement
+     * @throws DOMException
+     */
+    public function tagIBSCredPres(stdClass $std): DOMElement
+    {
+        $possible = [
+            'cCredPres',
+            'pCredPres',
+            'vCredPres',
+            'vCredPresCondSus',
+        ];
+        $std = $this->equilizeParameters($std, $possible);
+        $identificador = "UB73 <gIBSCredPres> -";
+        $gIBSCredPres = $this->dom->createElement("gIBSCredPres");
+        $this->dom->addChild(
+            $gIBSCredPres,
+            "cCredPres",
+            $std->cCredPres,
+            true,
+            "$identificador Código de Classificação do Crédito Presumido (cCredPres)"
+        );
+        $this->dom->addChild(
+            $gIBSCredPres,
+            "pCredPres",
+            $this->conditionalNumberFormatting($std->pCredPres, 4),
+            true,
+            "$identificador Percentual do Crédito Presumido (pCredPres)"
+        );
+        $this->dom->addChild(
+            $gIBSCredPres,
+            "vCredPres",
+            $this->conditionalNumberFormatting($std->vCredPres),
+            true,
+            "$identificador Valor do Crédito Presumido (vCredPres)"
+        );
+        $this->dom->addChild(
+            $gIBSCredPres,
+            "vCredPresCondSus",
+            $this->conditionalNumberFormatting($std->vCredPresCondSus),
+            true,
+            "$identificador Valor do Crédito Presumido em condição suspensiva. (vCredPres)"
+        );
+        $this->gIBSCredPres = $gIBSCredPres;
+        return $gIBSCredPres;
+    }
+
+    /**
+     * Grupo de Informações do Crédito Presumido referente ao CBS UB78 pai UB15
+     * $this->aCBSCredPres[$item]/gCBSCredPres
+     * IBSCBS/gCBSCBS/gCBSCredPres
+     * @param stdClass $std
+     * @return DOMElement
+     * @throws DOMException
+     */
+    public function tagCBSCredPres(stdClass $std): DOMElement
+    {
+        $possible = [
+            'cCredPres',
+            'pCredPres',
+            'vCredPres',
+            'vCredPresCondSus',
+        ];
+        $std = $this->equilizeParameters($std, $possible);
+        $identificador = "UB78 <gCBSCredPres> -";
+        $gCBSCredPres = $this->dom->createElement("gCBSCredPres");
+        $this->dom->addChild(
+            $gCBSCredPres,
+            "cCredPres",
+            $std->cCredPres,
+            true,
+            "$identificador Código de Classificação do Crédito Presumido (cCredPres)"
+        );
+        $this->dom->addChild(
+            $gCBSCredPres,
+            "pCredPres",
+            $this->conditionalNumberFormatting($std->pCredPres, 4),
+            true,
+            "$identificador Percentual do Crédito Presumido (pCredPres)"
+        );
+        $this->dom->addChild(
+            $gCBSCredPres,
+            "vCredPres",
+            $this->conditionalNumberFormatting($std->vCredPres),
+            true,
+            "$identificador Valor do Crédito Presumido (vCredPres)"
+        );
+        $this->dom->addChild(
+            $gCBSCredPres,
+            "vCredPresCondSus",
+            $this->conditionalNumberFormatting($std->vCredPresCondSus),
+            true,
+            "$identificador Valor do Crédito Presumido em condição suspensiva. (vCredPres)"
+        );
+        $this->gCBSCredPres = $gCBSCredPres;
+        return $gCBSCredPres;
     }
 
     protected function checkCTeKey(Dom $dom)
